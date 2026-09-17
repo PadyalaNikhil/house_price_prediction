@@ -11,9 +11,9 @@ app = Flask(__name__)
 # ---------------------------------
 # Load Dataset
 # ---------------------------------
-df = pd.read_csv(
-    r"D:\machine learning\house_price_project\Hyderabad_Property_Data.csv"
-)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+df = pd.read_csv(os.path.join(BASE_DIR,"Hyderabad_Property_Data.csv"))
 
 # Remove spaces from column names
 df.columns = df.columns.str.strip()
