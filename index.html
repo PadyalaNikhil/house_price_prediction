@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyderabad House Price Prediction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .accuracy-card {
+            background: #f0fff4;
+            border: 2px solid #4CAF50;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .accuracy-card h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .accuracy-score {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #81C784);
+            transition: width 0.5s ease;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5563d6;
+        }
+
+        .result {
+            margin-top: 20px;
+            background: #e8f5e9;
+            color: #1b5e20;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .locations {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🏠 Hyderabad House Price Prediction</h1>
+
+        <!-- Accuracy Card -->
+        <div class="accuracy-card">
+
+            <h3>Model Accuracy</h3>
+
+            <div class="accuracy-score">
+                {{ accuracy }}%
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill" id="accuracyBar"></div>
+            </div>
+
+        </div>
+
+        <!-- Prediction Form -->
+        <form action="/predict" method="POST">
+
+            <label>Select Location</label>
+
+            <select name="location" required>
+
+                {% for location in locations %}
+                <option value="{{ location }}">
+                    {{ location }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <label>Area (Square Feet)</label>
+
+            <input type="number" name="area" placeholder="Enter Area in Sq Ft" required>
+
+            <button type="submit">
+                Predict House Price
+            </button>
+
+        </form>
+
+        <!-- Prediction Result -->
+
+        {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+
+        <!-- Location List -->
+
+        <div class="locations">
+
+            <strong>Available Locations:</strong><br><br>
+
+            📍 Kokapet<br>
+            📍 Gachibowli<br>
+            📍 Banjara Hills<br>
+            📍 Kondapur<br>
+            📍 Miyapur<br>
+            📍 Kukatpally<br>
+            📍 Manikonda<br>
+            📍 Bachupally<br>
+            📍 Uppal<br>
+            📍 Kompally<br>
+            📍 Adibatla<br>
+            📍 Bandlaguda Jagir
+
+        </div>
+
+        <div class="footer">
+            Powered by Flask • Scikit-Learn • Linear Regression
+        </div>
+
+    </div>
+
+    <script>
+
+        let accuracy = parseFloat("{{ accuracy }}");
+
+        if (!isNaN(accuracy)) {
+            document.getElementById("accuracyBar").style.width =
+                Math.min(accuracy, 100) + "%";
+        }
+
+    </script>
+
+</body>
+
+</html>
